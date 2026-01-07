@@ -1,0 +1,6 @@
+google-generativeai
+openai-whisper
+ffmpeg-python
+python-dotenv
+torch
+numpy
