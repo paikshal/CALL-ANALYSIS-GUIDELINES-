@@ -67,4 +67,5 @@ We conducted a rigorous comparison between **Meta-Llama-3-8B** and **Mistral-7B 
 
 This project is locked to use **Llama-3** for maximum reliability.
 
-
+## 📜 License
+[MIT License](LICENSE)
