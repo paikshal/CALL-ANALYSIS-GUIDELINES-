@@ -134,7 +134,7 @@ Analyze the transcript now:
     return response.choices[0].message.content
 
 # Main UI
-uploaded_file = st.file_uploader("Upload Audio File", type=["mp3", "wav", "m4a", "awb"])
+uploaded_file = st.file_uploader("Upload Audio File", type=["mp3", "wav", "m4a", "awb", "ogg", "aac", "flac", "amr", "wma", "mp4"])
 
 if uploaded_file is not None:
     # Save temp file
