@@ -100,10 +100,17 @@ def transcribe_audio(audio_path):
     result = model.transcribe(audio_path)
     return result["text"]
 
-def analyze_with_llama(transcript, token):
+def analyze_with_llama(transcript, token, language="English"):
     client = InferenceClient(token=token)
     model_id = "meta-llama/Meta-Llama-3-8B-Instruct"
     
+    # Language specific instruction
+    lang_instruction = ""
+    if language == "Hinglish":
+        lang_instruction = "5. OUTPUT LANGUAGE: Generate the ENTIRE analysis in HINGLISH (Natural mix of Hindi and English). Keep technical headers in English, but explain the insights in Hinglish (e.g., 'Founder kaafi guarded lag raha tha')."
+    else:
+        lang_instruction = "5. OUTPUT LANGUAGE: Generate the analysis in standard professional ENGLISH."
+
     user_message = f"""
 Here is the raw transcript of a real call. 
 Your task is to analyze it using the Design Thinking framework provided in the system prompt.
@@ -113,6 +120,7 @@ RULES:
 2. Do NOT repeat the transcript.
 3. OUTPUT ONLY the analysis sections (1-8).
 4. If the transcript is empty or unclear, say "Transcript is unclear".
+{lang_instruction}
 
 --- TRANSCRIPT BEGINS ---
 {transcript}
@@ -136,6 +144,9 @@ Analyze the transcript now:
 # Main UI
 uploaded_file = st.file_uploader("Upload Audio File", type=["mp3", "wav", "m4a", "awb", "ogg", "aac", "flac", "amr", "wma", "mp4"])
 
+# Language Selection
+language = st.radio("Select Report Language:", ["English", "Hinglish"], horizontal=True)
+
 if uploaded_file is not None:
     # Save temp file
     temp_dir = tempfile.mkdtemp()
@@ -151,14 +162,14 @@ if uploaded_file is not None:
             st.error("Please provide a Hugging Face API Key in the sidebar or env variables.")
         else:
             try:
-                with st.spinner("🎧 Transcribing Audio with Whisper..."):
+                with st.spinner(f"🎧 Transcribing & Analyzing in {language}..."):
                     transcript = transcribe_audio(file_path)
                 
                 with st.expander("View Transcript"):
                     st.text(transcript)
                 
-                with st.spinner("🧠 Analyzing with Llama-3..."):
-                    analysis = analyze_with_llama(transcript, token)
+                with st.spinner("🧠 Generating Analysis..."):
+                    analysis = analyze_with_llama(transcript, token, language)
                 
                 st.subheader("✨ Design Thinking Analysis Report")
                 st.markdown(analysis)
