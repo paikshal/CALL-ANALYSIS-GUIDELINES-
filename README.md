@@ -1,3 +1,14 @@
+---
+title: AI Call Analyzer
+emoji: 🎧
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: 5.49.1
+app_file: app_gradio.py
+pinned: false
+---
+
 # 🎧 AI Call Analyzer (Design Thinking)
 
 A Python-based tool that analyzes customer support and sales calls using **AI-powered pyschological profiling**. It goes beyond simple summarization to map the **emotional state, power dynamics, and risk perception** of the participants using the "Design Thinking" framework.
